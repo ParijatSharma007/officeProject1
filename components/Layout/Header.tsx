@@ -10,7 +10,6 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { Url } from "next/dist/shared/lib/router/router";
 
@@ -21,7 +20,7 @@ const pages = [
   },
   {
     title: "Exchange",
-    path: "/excange",
+    path: "/exchange",
   },
   {
     title: "Market",

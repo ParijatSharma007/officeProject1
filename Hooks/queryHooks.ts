@@ -1,4 +1,6 @@
 import { getAssetHistory, getAssetMarket, getAssets, getSingleAsset } from "@/AxiosCalls/assetsCalls";
+import { getExchange, getSingleExchange } from "@/AxiosCalls/exchanceCalls";
+import { getMarket, getSingleMarket } from "@/AxiosCalls/marketCalls";
 import { getAllRates, getSingleRate } from "@/AxiosCalls/rate.calls";
 import { useQuery } from "@tanstack/react-query";
 
@@ -15,7 +17,7 @@ export function useGetAssets (){
 export function useGetSingleData (id : string | string[] | undefined, type : "markets" | null = null) {
     if(type === null){
       const { data, isLoading, error, isError } = useQuery({
-        queryKey: [`assets-${id}`],
+        queryKey: [`assets-${id}`,id],
         queryFn: () => getSingleAsset(id),
         refetchInterval: 1000,
         enabled : id ? true : false
@@ -45,7 +47,7 @@ export function useGetCryptoHistory (id : string | string[] | undefined, interva
     return { data, isLoading, error, isError };
 }
 
-export function useGetRates (id : string | string[] | undefined | null = null) {
+export function useGetRates (id : string | string[] | undefined | null = null, open : boolean = false) {
   
   if(!id){
     const {data, isLoading, error, isError} = useQuery({
@@ -60,8 +62,38 @@ export function useGetRates (id : string | string[] | undefined | null = null) {
     queryKey : [`single-rate-${id}`],
     queryFn : () => getSingleRate(id),
     refetchInterval : 1000,
-    enabled : id ? true : false
+    enabled : id && open ? true : false 
   })
 
   return { data, isLoading, error, isError };
+}
+
+export function useGetExchange() {
+  const {data, isError, isLoading, error} = useQuery({
+    queryKey : [`exchanges`],
+    queryFn : getExchange,
+    refetchInterval : 1000
+  })
+  return {data, isError, isLoading, error}
+}
+
+export function useGetSingleExchange (id : string | string[] |undefined){
+  const {data, isError, isLoading, error} = useQuery({
+    queryKey : [`exchange-${id}`],
+    queryFn : () => getSingleExchange(id),
+    refetchInterval : 1000,
+    enabled : id ? true : false
+  })
+
+  return {data, isError, isLoading, error}
+}
+
+export function useGetMarket () {
+    const {data, isError, isLoading, error} = useQuery({
+      queryKey : [`market`],
+      queryFn : () => getMarket(),
+      refetchInterval : 1000
+    })
+
+    return {data, isError, isLoading, error}
 }

@@ -8,6 +8,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 // import { makeStyles } from "@mui/styles";
 import { Container } from "@mui/material";
+import MappingRateRow from "./MappingRate";
 
 // function createData(
 //   name: string,
@@ -47,10 +48,10 @@ export default function RateTable({ assets, openModal }: any) {
   return (
     <Container sx={{ paddingRight: "20px", paddingTop: "20px" }}>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+        <Table sx={{ minWidth: 650 }} size="medium" aria-label="a dense table">
           <TableHead>
             <TableRow>
-              <TableCell size="medium">
+              <TableCell align="center" size="medium">
                 <h2>SYMBOL</h2>
               </TableCell>
               <TableCell align="center" size="medium">
@@ -68,34 +69,7 @@ export default function RateTable({ assets, openModal }: any) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {assets?.map((asset: AssetIterface) => (
-              <TableRow
-                key={asset.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                onClick={() => openModal(asset.id)}
-              >
-                <TableCell component="th" scope="row">
-                  <h2>{asset.symbol}</h2>
-                </TableCell>
-
-                <TableCell align="center">
-                  <h3>{asset.symbol}</h3>
-                </TableCell>
-                {/* <TableCell align="right">
-                  <h3>{asset.name}</h3>
-                </TableCell> */}
-                <TableCell align="center">
-                  <h3>{Number(asset.currentSymbol).toFixed(2)}</h3>
-                </TableCell>
-                <TableCell align="center">
-                  <h3>{Number(asset.type).toFixed(2)}</h3>
-                </TableCell>
-
-                <TableCell align="center">
-                  <h3>{Number(asset.rateUsd).toFixed(2)}</h3>
-                </TableCell>
-              </TableRow>
-            ))}
+            {assets.map((asset : AssetIterface) => <MappingRateRow asset={asset} key={asset.id}/>)}
           </TableBody>
         </Table>
       </TableContainer>

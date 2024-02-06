@@ -10,7 +10,6 @@ import Spinner from '@/components/Loader/Spinner';
 import Link from 'next/link';
 const SingleExchangePage = () => {
   const {id} = useRouter().query
-    if(id){
         const {data, isLoading, error, isError} = useGetSingleExchange(id)
 
         console.log("singleExchange : ",data);
@@ -39,6 +38,5 @@ const SingleExchangePage = () => {
                 </Card>}
             </Wraper>
         );
-    }
 }
 export default SingleExchangePage

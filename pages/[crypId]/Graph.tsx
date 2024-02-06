@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BarChart } from '@mui/x-charts/BarChart';
+import Chart from 'react-apexcharts'
 
 interface ChartInterface {
     yAxis : number[],
@@ -7,15 +7,32 @@ interface ChartInterface {
 }
 
 function Graph({yAxis, xAxis} : ChartInterface) {
+
+  const state = {
+    options: {
+      chart: {
+        id: "basic-bar"
+      },
+      xaxis: {
+        categories: xAxis
+      }
+    },
+    series: [
+      {
+        name: "series-1",
+        data: yAxis
+      }
+    ]
+  };
+
+
   return (
-    <BarChart
-      series={[
-        { data: yAxis },
-      ]}
-      xAxis={[{ data: xAxis, scaleType: 'band' }]}
-      width={850}
-      height={300}
-    />
+    <Chart
+    options={state.options}
+    series={state.series}
+    type="line"
+    width="800"
+  />
   );
 }
 

@@ -27,7 +27,7 @@ const SingleExchangePage = () => {
         return (
             <Wraper>
                 <Typography>
-                  Check Console
+                  {data?.name}
                 </Typography>
             </Wraper>
         );

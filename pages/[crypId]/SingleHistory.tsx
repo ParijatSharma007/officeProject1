@@ -58,7 +58,7 @@ const SingleHistory = ({id} : SingleDataInterface) => {
       console.table(yAxis)
     }
     
-  }, [interval, data])
+  }, [interval, data, isLoading])
 
   if (error) {
     router.push("/404");

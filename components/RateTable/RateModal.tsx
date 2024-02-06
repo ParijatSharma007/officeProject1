@@ -1,7 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useGetRates } from "@/Hooks/queryHooks";
 import { Button, Dialog, DialogTitle } from "@mui/material";
 
 const style = {
@@ -19,13 +18,10 @@ const style = {
 interface ModalInterface{
     open : boolean,
     handleClose : any,
-    id : string|null
+    data : any
 }
 
-const RateModal = ({id, handleClose, open} : ModalInterface) => {
-
-  if(id !== null){
-    var {data, isLoading, error, isError} = useGetRates(id, open)
+const RateModal = ({data, handleClose, open} : ModalInterface) => {
 
     return (
         <Dialog
@@ -45,6 +41,6 @@ const RateModal = ({id, handleClose, open} : ModalInterface) => {
           </Box>
         </Dialog>
     );
-}}
+}
 
 export default RateModal

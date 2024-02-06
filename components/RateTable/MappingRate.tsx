@@ -46,7 +46,7 @@ const MappingRateRow = ({asset} : RateRow) => {
                   <h3>{Number(asset.rateUsd).toFixed(2)}</h3>
                 </TableCell>
             </TableRow>
-            <RateModal id={asset.id} open={open} handleClose={closeModal}/>
+            <RateModal data={asset} open={open} handleClose={closeModal}/>
         </>
        
   )

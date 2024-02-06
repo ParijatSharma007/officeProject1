@@ -4,8 +4,24 @@ import CommonTable from '@/components/commonTable/CommonTable'
 import React from 'react'
 import { useMemo } from 'react'
 import Spinner from '@/components/Loader/Spinner'
+import { queryClient } from '../_app'
+import { getMarket } from '@/AxiosCalls/marketCalls'
+import { HydrationBoundary, dehydrate } from '@tanstack/react-query'
 
-const Market = () => {
+export async function getStaticProps() {
+  queryClient.prefetchQuery({
+    queryKey : ["market"],
+    queryFn : getMarket
+  })
+
+  return {
+    props : {
+      dehydratedState : dehydrate(queryClient)
+    }
+  }
+}
+
+const Market = ({dehydratedState} : any) => {
 
   const {data, isLoading, error, isError} = useGetMarket()
 
@@ -14,15 +30,17 @@ const Market = () => {
   ), [])
 
   return (
-    <Wraper>
-      {!isLoading && data ?
-        <CommonTable 
-        data={data} 
-        fields={fields} 
-        path="market"
-        /> : <Spinner size={230}/>
-      }
-    </Wraper>
+    <HydrationBoundary state={dehydratedState}>
+      <Wraper>
+        {!isLoading && data ?
+          <CommonTable 
+          data={data} 
+          fields={fields} 
+          path="market"
+          /> : <Spinner size={230}/>
+        }
+      </Wraper>
+    </HydrationBoundary>
   )
 }
 

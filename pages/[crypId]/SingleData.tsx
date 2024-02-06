@@ -26,21 +26,11 @@ interface CrypData {
     data : DataInterFace
 }
 
-const SingleData = ({ id }: SingleDataInterface) => {
-
-  console.log("singleData Props : ", id);
-
-  const {data, isLoading, isError, error} = useGetSingleData(id)
-
-  const router = useRouter()
-
-  if(error){
-    router.push('/404')
-  }
+const SingleData = ({ data }: any) => {
 
   return (
     <Container sx={{padding : "20px"}}>
-       {!!data && <SingleDataTable data={data}/>}
+      {!data.isLoading && <SingleDataTable data={data.data}/>}
     </Container>
   )
 };

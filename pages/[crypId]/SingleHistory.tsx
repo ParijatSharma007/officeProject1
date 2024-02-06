@@ -1,40 +1,27 @@
+import dynamic from 'next/dynamic';
 import { useGetCryptoHistory } from '@/Hooks/queryHooks'
 import React, { useCallback, useEffect } from 'react'
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 import { Box, Container } from '@mui/material';
 import Spinner from '@/components/Loader/Spinner';
 import SelectInterval from '../../components/HomePage/IntervalSelecter';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import Graph from './Graph';
+const Graph = dynamic(()  => import('./Graph'), {
+  ssr : false
+});
 
 
 interface SingleDataInterface {
   id: string | string[] | undefined;
 }
 
-const SingleHistory = ({id} : SingleDataInterface) => {
+const SingleHistory = ({handleChange, historyData, interval} : any) => {
 
-   
-
-    const [interval, setIterval] = useState<"m1" | "m5" | "m15" | "m30" | "h1 " | "h2" | "h6" | "h12" | "d1">("h2");
-    const router = useRouter()
-
-    const handleInterval = (
-      value: "m1" | "m5" | "m15" | "m30" | "h1 " | "h2" | "h6" | "h12" | "d1"
-    ) => {
-      setIterval(value);
-    };
+    const {data, isLoading, isError, error} = historyData
 
     console.log("I am single history");
 
-  const {data, isLoading, isError, error} = useGetCryptoHistory(id, interval)
+  
 
   const[chartData, setChartData] = useState<{xAxis : number[], yAxis : number[]}>({
     xAxis : [1, 2, 3],
@@ -60,10 +47,6 @@ const SingleHistory = ({id} : SingleDataInterface) => {
     
   }, [interval, data, isLoading])
 
-  if (error) {
-    router.push("/404");
-  }
-
   return (
     <Container>
        <Box
@@ -74,7 +57,7 @@ const SingleHistory = ({id} : SingleDataInterface) => {
         paddingBottom : "10px"
       }}
        >
-        <SelectInterval interval={interval} handleChange={handleInterval}/>
+        <SelectInterval interval={interval} handleChange={handleChange}/>
         {isLoading || isError ? <Spinner size={70}/> : 
         <Graph xAxis={chartData.xAxis} yAxis={chartData.yAxis}/>}
         

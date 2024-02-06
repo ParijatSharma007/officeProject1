@@ -11,10 +11,6 @@ import Link from 'next/link';
 const SingleExchangePage = () => {
   const {id} = useRouter().query
         const {data, isLoading, error, isError} = useGetSingleExchange(id)
-
-        console.log("singleExchange : ",data);
-        
-
         return (
             <Wraper>
                 {isLoading && !data? <Spinner size={230}/> : <Card sx={{ minWidth: 275 }}>
